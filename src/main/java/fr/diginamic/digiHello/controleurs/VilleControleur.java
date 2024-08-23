@@ -2,6 +2,7 @@ package fr.diginamic.digiHello.controleurs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.PostConstruct;
 import fr.diginamic.digiHello.dao.VilleDao;
+import fr.diginamic.digiHello.model.Departement;
 import fr.diginamic.digiHello.model.Ville;
+import fr.diginamic.digiHello.service.DepartementService;
 import fr.diginamic.digiHello.service.VilleService;
+import fr.diginamic.digiHello.repository.DepartementRepository;
+import fr.diginamic.digiHello.repository.VilleRepository;
 
 @RestController
 @RequestMapping("/villes")
@@ -25,26 +30,18 @@ public class VilleControleur {
 	
 	//private List<Ville> villes = new ArrayList<Ville>(); 
 	
-	private Integer id;
+	//private Integer id;
 	
 	@Autowired
 	//private VilleDao villeDao;
 	private VilleService villeService;
+	//VilleRepository villeRepository;
 	
-	@PostConstruct
-	public void init() {
-		/*Ville tlse = new Ville();
-		tlse.setNom("Toulouse");
-		tlse.setNbHabitants(700000);
-		Ville montp = new Ville();
-		montp.setNom("Montpellier");
-		montp.setNbHabitants(400000);
-		*/
-		//villes.add(tlse);
-		villeService.insertVille(new Ville("Toulouse", 700000));
-		//villes.add(montp);
-		villeService.insertVille(new Ville("Montpellier",4000000));
-	}
+	@Autowired
+	//DepartementRepository departementRepository;
+	private DepartementService departementService;
+	
+	
 	
 	
 	/*@GetMapping
@@ -84,33 +81,57 @@ public class VilleControleur {
 	@GetMapping
 	public List<Ville> extractVilles() {
 		return villeService.extractVilles();
+		//return villeRepository.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	public Ville extractVille(@PathVariable("id") int idVille) {
+	public Optional<Ville> extractVille(@PathVariable("id") Integer idVille) {
 		return villeService.extractVille(idVille);
+		//return villeRepository.findById(idVille);
 	}
 	
 	@GetMapping("/name/{name}")
 	public Ville extractVille(@PathVariable("name") String nom) {
 		return villeService.extractVille(nom);
+		//return villeRepository.findByNom(nom);
+	}
+	
+	@GetMapping("/startwith/{name}")
+	public List<Ville> findByNomStartingWith(@PathVariable("name") String letters) {
+		return ((VilleRepository) villeService).findByNomStartingWith(letters);
+		//return villeRepository.findByNomStartingWith(letters);
+	}
+	
+	@GetMapping("findMin/min/{min}")
+	public List<Ville> findByNbHabitantsGreaterThan(@PathVariable("min") long min) {
+		return villeService.findByNbHabitantsGreaterThan(min);
+	}
+	
+	@GetMapping("findMinMax/minmax/{min}/{max}")
+	public List<Ville> findByNbHabitantsBetweenMinMax(@PathVariable("min")long min, @PathVariable("max")long max) {
+		return villeService.findByNbHabitantsBetweenMinMax(min, max);
 	}
 	
 	@PostMapping
 	public ResponseEntity<String> insertVille(@RequestBody Ville ville) {
 		villeService.insertVille(ville);
+		//villeRepository.save(ville);
 		return ResponseEntity.ok("Success !");
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<String> modifierVille(@PathVariable("id") int idVille,@RequestBody Ville villeModifiee){
-		villeService.modifierVille(idVille, villeModifiee);
+	@PutMapping
+	public ResponseEntity<String> modifierVille(@RequestBody Ville villeModifiee){
+		villeService.modifierVille(villeModifiee);
+		//villeRepository.save(villeModifiee);
+		
 		return ResponseEntity.ok("Success !");
 	}
 	
 	@DeleteMapping("/{id}")
-	public List<Ville> supprimerVille(@PathVariable("id") int idVille){
+	public List<Ville> supprimerVille(@PathVariable("id") Integer idVille){
 		villeService.supprimerVille(idVille);
+		//villeRepository.deleteById(idVille);
+		
 		return villeService.extractVilles();
 		
 	}

@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import fr.diginamic.digiHello.Config.Config;
 
 @SpringBootApplication
-public class DigiHelloApplication implements CommandLineRunner {
+public class DigiHelloApplication { //implements CommandLineRunner {
 	
-	@Autowired
-	Config config;
+	//@Autowired
+	//Config config;
 	
 	
 	public static void main(String[] args) {
@@ -19,8 +19,8 @@ public class DigiHelloApplication implements CommandLineRunner {
 		System.out.println();
 	}
 	
-	public void run(String... args) throws Exception {
+	/*public void run(String... args) throws Exception {
 		System.out.println(config);
-	}
+	}*/
 
 }
