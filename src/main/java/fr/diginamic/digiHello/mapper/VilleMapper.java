@@ -16,7 +16,13 @@ public class VilleMapper {
 	DepartementService departementService;
 	
 	public VilleDto toDto(Ville ville) {
-		return null;
+		VilleDto vv = new VilleDto();
+		vv.setNomVille(ville.getNom());
+		vv.setNomDepartement(ville.getDep().getNom());
+		vv.setNbHabitantsVille(ville.getNbHabitants());
+		vv.setCodeDepartement(ville.getDep().getCode());
+		
+		return vv;
 	}
 	
 	public Ville toBean(VilleDto villeDto) {

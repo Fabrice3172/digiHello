@@ -2,11 +2,37 @@ package fr.diginamic.digiHello.dto;
 
 public class VilleDto {
 
+	private Integer Id;
 	private String nomVille;
 	private Integer nbHabitantsVille;
 	
 	private String codeDepartement;
 	private String nomDepartement;
+	
+	public VilleDto() {
+		super();
+	}
+
+	public VilleDto(Integer id, String nomVille, Integer nbHabitantsVille, String codeDepartement,
+			String nomDepartement) {
+		super();
+		Id = id;
+		this.nomVille = nomVille;
+		this.nbHabitantsVille = nbHabitantsVille;
+		this.codeDepartement = codeDepartement;
+		this.nomDepartement = nomDepartement;
+	}
+	
+	
+
+	public Integer getId() {
+		return Id;
+	}
+
+	public void setId(Integer id) {
+		Id = id;
+	}
+
 	public String getNomVille() {
 		return nomVille;
 	}

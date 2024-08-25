@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import fr.diginamic.digiHello.dto.VilleDto;
 import fr.diginamic.digiHello.model.Ville;
 import fr.diginamic.digiHello.service.VilleService;
 import jakarta.validation.constraints.AssertTrue;
@@ -21,7 +22,7 @@ public class VilleServiceTest {
 	
 	@Test
 	public void testExtractVille() {
-		Iterable<Ville> villes = villeService.extractVilles();
+		Iterable<VilleDto> villes = villeService.extractVilles();
 		assertTrue(villes.iterator().hasNext());
 	}
 }

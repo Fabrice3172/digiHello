@@ -1,5 +1,6 @@
 package fr.diginamic.digiHello.controleurs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.diginamic.digiHello.dto.DepartementDto;
+import fr.diginamic.digiHello.mapper.DepartementMapper;
 import fr.diginamic.digiHello.model.Departement;
 import fr.diginamic.digiHello.model.Ville;
 import fr.diginamic.digiHello.repository.DepartementRepository;
 import fr.diginamic.digiHello.repository.VilleRepository;
+import fr.diginamic.digiHello.service.DepartementService;
 import jakarta.annotation.PostConstruct;
 
 @RestController
@@ -26,7 +29,8 @@ public class DepartementControlleur {
 
 
 	@Autowired
-	DepartementRepository departementRepository;
+	//DepartementRepository departementRepository;
+	private DepartementService departementService;
 	
 	
 	/*@PostConstruct
@@ -39,29 +43,33 @@ public class DepartementControlleur {
 	
 	
 	@PostMapping
-	public ResponseEntity<String> createDepartement(@RequestBody Departement departement) {
-		departementRepository.save(departement);
+	public ResponseEntity<String> createDepartement(@RequestBody DepartementDto departement) {
+		
+		departementService.create(departement);
 		return ResponseEntity.ok("Success !");
 	}
 	
 	@GetMapping
-	public List<Departement> readDepartement() {
-		return departementRepository.findAll();
+	public List<DepartementDto> readDepartement() {
+		
+		return departementService.findAll();
 	}
 	
 	@PutMapping
-	public ResponseEntity<String> modifierDepartement(@RequestBody Departement depModifie){
-		departementRepository.save(depModifie);
+	public ResponseEntity<String> modifierDepartement(@RequestBody DepartementDto depModifie){
+		
+		departementService.create(depModifie);
 		return ResponseEntity.ok("Success !");
 	}
 	
 	
 	@DeleteMapping("/{id}")
-	public List<Departement> supprimerDepartement(@PathVariable Integer id){
+	public List<DepartementDto> supprimerDepartement(@PathVariable Integer id){
 		//villeService.supprimerVille(idVille);
-		departementRepository.deleteById(id);
 		
-		return departementRepository.findAll();
+		departementService.delete(id);
+		
+		return readDepartement();
 		
 	}
 }

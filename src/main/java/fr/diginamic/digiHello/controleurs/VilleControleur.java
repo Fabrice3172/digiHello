@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.PostConstruct;
 import fr.diginamic.digiHello.dao.VilleDao;
+import fr.diginamic.digiHello.dto.VilleDto;
+import fr.diginamic.digiHello.exception.DigiHelloException;
+import fr.diginamic.digiHello.mapper.VilleMapper;
 import fr.diginamic.digiHello.model.Departement;
 import fr.diginamic.digiHello.model.Ville;
 import fr.diginamic.digiHello.service.DepartementService;
@@ -79,13 +82,13 @@ public class VilleControleur {
 	}
 	*/
 	@GetMapping
-	public List<Ville> extractVilles() {
+	public List<VilleDto> extractVilles() {
 		return villeService.extractVilles();
 		//return villeRepository.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<Ville> extractVille(@PathVariable("id") Integer idVille) {
+	public VilleDto extractVille(@PathVariable("id") Integer idVille) {
 		return villeService.extractVille(idVille);
 		//return villeRepository.findById(idVille);
 	}
@@ -103,24 +106,25 @@ public class VilleControleur {
 	}
 	
 	@GetMapping("findMin/min/{min}")
-	public List<Ville> findByNbHabitantsGreaterThan(@PathVariable("min") long min) {
+	public List<VilleDto> findByNbHabitantsGreaterThan(@PathVariable("min") long min) {
 		return villeService.findByNbHabitantsGreaterThan(min);
 	}
 	
 	@GetMapping("findMinMax/minmax/{min}/{max}")
-	public List<Ville> findByNbHabitantsBetweenMinMax(@PathVariable("min")long min, @PathVariable("max")long max) {
+	public List<VilleDto> findByNbHabitantsBetweenMinMax(@PathVariable("min")long min, @PathVariable("max")long max) {
 		return villeService.findByNbHabitantsBetweenMinMax(min, max);
 	}
 	
 	@PostMapping
-	public ResponseEntity<String> insertVille(@RequestBody Ville ville) {
-		villeService.insertVille(ville);
+	public ResponseEntity<String> insertVille(@RequestBody Ville ville) throws DigiHelloException {
+		VilleMapper vMap = new VilleMapper();
+		villeService.insertVille(vMap.toDto(ville));
 		//villeRepository.save(ville);
 		return ResponseEntity.ok("Success !");
 	}
 	
 	@PutMapping
-	public ResponseEntity<String> modifierVille(@RequestBody Ville villeModifiee){
+	public ResponseEntity<String> modifierVille(@RequestBody Ville villeModifiee) throws DigiHelloException{
 		villeService.modifierVille(villeModifiee);
 		//villeRepository.save(villeModifiee);
 		
@@ -128,7 +132,7 @@ public class VilleControleur {
 	}
 	
 	@DeleteMapping("/{id}")
-	public List<Ville> supprimerVille(@PathVariable("id") Integer idVille){
+	public List<VilleDto> supprimerVille(@PathVariable("id") Integer idVille){
 		villeService.supprimerVille(idVille);
 		//villeRepository.deleteById(idVille);
 		

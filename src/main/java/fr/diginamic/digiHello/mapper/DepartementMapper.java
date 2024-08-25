@@ -3,6 +3,7 @@ package fr.diginamic.digiHello.mapper;
 import org.springframework.stereotype.Service;
 
 import fr.diginamic.digiHello.dto.DepartementDto;
+import fr.diginamic.digiHello.dto.VilleDto;
 import fr.diginamic.digiHello.model.Departement;
 import fr.diginamic.digiHello.model.Ville;
 
@@ -24,4 +25,18 @@ public class DepartementMapper {
 		departementDto.setNbHabitantsDepartement(nbHabitantsDepartement);
 		return departementDto;
 	}
+	
+	public Departement toBean(DepartementDto depDto) {
+		
+		Departement dep= new Departement();
+		
+		dep.setNom(depDto.getNomDepartement());
+		dep.setCode(depDto.getCodeDepartement());
+		
+		if(dep !=null) {
+			dep.setId(depDto.getId());
+		}
+		return dep;
+	}
+	
 }
